@@ -4,6 +4,7 @@ resource "aws_lb" "main" {
   load_balancer_type         = var.load_balancer_type
   subnets                    = var.subnets
   enable_deletion_protection = var.enable_deletion_protection
+  security_groups            = [aws_security_group.main.id]
 
   tags = merge(
     var.tags,
