@@ -11,6 +11,22 @@ resource "aws_lb" "main" {
     { Name = "${var.name}-${var.env}" }
   )
 }
+resource "aws_lb_listener" "main" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "503-Invalid request"
+      status_code  = "503"
+    }
+  }
+}
+
 
 resource "aws_security_group" "main" {
   name        = "${var.name}-${var.env}-lb"
